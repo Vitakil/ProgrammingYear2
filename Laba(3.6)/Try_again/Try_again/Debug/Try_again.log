@@ -1,0 +1,13 @@
+﻿Build started 21.12.2015 17:57:45.
+     1>Project "C:\Users\Віталік\Desktop\LABA3\Try_again\Try_again\Try_again.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Віталік\Desktop\LABA3\Try_again\Debug\Try_again.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Віталік\Desktop\LABA3\Try_again\Debug\Try_again.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Віталік\Desktop\LABA3\Try_again\Debug\Try_again.lib" /MACHINE:X86 Debug\Parallel_sort.obj
+         Debug\Source.obj
+     1>Source.obj : error LNK2019: unresolved external symbol "public: void __thiscall Parallel_sort<8>::Parallel_hsort(void)" (?Parallel_hsort@?$Parallel_sort@$07@@QAEXXZ) referenced in function _main
+     1>Source.obj : error LNK2019: unresolved external symbol "public: __thiscall Parallel_sort<8>::Parallel_sort<8>(int)" (??0?$Parallel_sort@$07@@QAE@H@Z) referenced in function _main
+     1>C:\Users\Віталік\Desktop\LABA3\Try_again\Debug\Try_again.exe : fatal error LNK1120: 2 unresolved externals
+     1>Done Building Project "C:\Users\Віталік\Desktop\LABA3\Try_again\Try_again\Try_again.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.29
