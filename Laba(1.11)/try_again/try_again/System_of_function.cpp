@@ -1,46 +1,22 @@
 #include "System_of_function.h"
-
-
-System_of_function::System_of_function(std::ifstream &fin)
+#define Dvector std::vector<double>
+System_of_function::System_of_function(Dvector CoefA, Dvector CoefB, Dvector CoefD, vector<Dvector> CoefC,int countC,int countN)
 {
-	double data;
-	fin >> countC >> countN;
-	for (int i(0); i < countC; i++){
-		fin >> data;
-		CoefA.push_back(data);
-	}
-	for (int i(0); i < countC; i++){
-		fin >> data;
-		CoefB.push_back(data);
-	}
-	for (int i(0); i < countN; i++){
-		std::vector<double> ptr;
-		for (int j(0); j < countC; j++){
-			fin >> data;
-			ptr.push_back(data);
-		}
-		CoefC.push_back(ptr);
-	}
-	for (int i(0); i < countC; i++){
-		fin >> data;
-		CoefD.push_back(data);
-	}
+	this->CoefA = CoefA;
+	this->CoefB = CoefB;
+	this->CoefC = CoefC;
+	this->CoefD = CoefD;
+	this->countC = countC;
+	this->countN = countN;
 }
-double System_of_function::Sum(std::vector<double> X){
-	double res = 0;//variable which save value of function
-	//for each function argument calculate its value
-	for (int i(0); i < countC; i++)
-		res += CoefA[i] * X[i] + CoefB[i] * X[i] * X[i];
-	return res;
+Dvector System_of_function::derivation_sum(Dvector X)
+{
+	Dvector gradient;
+	for (int i(0); i < countC; i++)	gradient.push_back(CoefA[i] + 2 * CoefB[i] * X[i]);
+	return gradient;
 }
-std::vector<double> System_of_function::derivation_sum(std::vector<double> X){
-	std::vector<double > gradient;
-	for (int i(0); i < countC; i++)
-		gradient.push_back(CoefA[i] + 2 * CoefB[i] * X[i]);
-		return gradient;
-}
-bool System_of_function::Check(std::vector<double> X){
-		if (countN < 1)  return 1;
+bool System_of_function::Check(Dvector X)
+{
 		for (int i = 0; i < countN; i++)
 		{
 			double rowSum = 0;
@@ -48,16 +24,16 @@ bool System_of_function::Check(std::vector<double> X){
 				rowSum += CoefC[i][j] * X[j];
 			if (rowSum > CoefD[i]) return false;
 		}
-		return 1;
+		return true;
 }
-std::vector<double> System_of_function::sys(std::vector<double> _X)
+Dvector System_of_function::sys(Dvector _X)
 {
-	std::vector<double> prevX;
-	std::vector<double>  X = _X;
-	std::vector<double> gradient;
-	std::vector<double> Condition;
+	Dvector prevX;
+	Dvector  X = _X;
+	Dvector gradient;
+	Dvector Condition;
 	double lambda = lambdaConst; 
-	do {
+	while ((fabs(Sum(X) - Sum(prevX)) < epsConst)) {
 		prevX = X;	
 		gradient = derivation_sum(X);
 		for (int j = 0; j < X.size(); j++) 
@@ -71,7 +47,14 @@ std::vector<double> System_of_function::sys(std::vector<double> _X)
 			for (int j = 0; j < X.size(); j++)
 				X[j] = X[j] - lambda*gradient[j];
 		}
-	} while ( (fabs(Sum(X) - Sum(prevX)) > epsConst));
+	} 
 	return Condition;
+}
+double System_of_function::Sum(Dvector X){
+	double res = 0;//variable which save value of function
+	//for each function argument calculate its value
+	for (int i(0); i < countC; i++)
+		res += CoefA[i] * X[i] + CoefB[i] * X[i] * X[i];
+	return res;
 }
 System_of_function::~System_of_function(){};
